@@ -4,7 +4,12 @@ namespace OrderBot
 {
     public class Order : ISQLModel
     {
-        private string _size = String.Empty;
+        private string _traveldate = String.Empty;
+        private string _travelTime = String.Empty;
+        private string _travelPlace = String.Empty;
+        private string _travelClass = String.Empty;
+
+
         private string _phone = String.Empty;
 
         public string Phone{
@@ -12,9 +17,21 @@ namespace OrderBot
             set => _phone = value;
         }
 
-        public string Size{
-            get => _size;
-            set => _size = value;
+        public string TravelDate{
+            get => _traveldate;
+            set => _traveldate = value;
+        }
+        public string TravelTime{
+            get => _travelTime;
+            set => _travelTime = value;
+        }
+        public string TravelPlace{
+            get => _travelPlace;
+            set => _travelPlace = value;
+        }
+        public string TravelClass{
+            get => _travelClass;
+            set => _travelClass = value;
         }
 
         public void Save(){
@@ -26,10 +43,10 @@ namespace OrderBot
                 commandUpdate.CommandText =
                 @"
         UPDATE orders
-        SET size = $size
+        SET size = $travelDate
         WHERE phone = $phone
     ";
-                commandUpdate.Parameters.AddWithValue("$size", Size);
+                commandUpdate.Parameters.AddWithValue("$travelDate", TravelDate);
                 commandUpdate.Parameters.AddWithValue("$phone", Phone);
                 int nRows = commandUpdate.ExecuteNonQuery();
                 if(nRows == 0){
@@ -37,9 +54,9 @@ namespace OrderBot
                     commandInsert.CommandText =
                     @"
             INSERT INTO orders(size, phone)
-            VALUES($size, $phone)
+            VALUES($travelDate, $phone)
         ";
-                    commandInsert.Parameters.AddWithValue("$size", Size);
+                    commandInsert.Parameters.AddWithValue("$travelDate", TravelDate);
                     commandInsert.Parameters.AddWithValue("$phone", Phone);
                     int nRowsInserted = commandInsert.ExecuteNonQuery();
 

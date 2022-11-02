@@ -6,7 +6,7 @@ namespace OrderBot
     {
         private enum State
         {
-            WELCOMING, SIZE, PROTEIN
+            WELCOMING, TRAVEL_DATE, TRAVEL_TIME, TRAVEL_PLACE, TRAVEL_CLASS
         }
 
         private State nCur = State.WELCOMING;
@@ -26,17 +26,35 @@ namespace OrderBot
                 case State.WELCOMING:
                     aMessages.Add("Welcome to Airline Ticket Booking System");
                     aMessages.Add("How may we (Group 4) help you?");
-                    this.nCur = State.SIZE;
+                    aMessages.Add("For which dates you want to book the ticket");
+                    this.nCur = State.TRAVEL_DATE;
                     break;
-                case State.SIZE:
-                    this.oOrder.Size = sInMessage;
+
+                case State.TRAVEL_DATE:
+                    this.oOrder.TravelDate = sInMessage;
                     this.oOrder.Save();
-                    aMessages.Add("What protein would you like on this  " + this.oOrder.Size + " Shawarama?");
-                    this.nCur = State.PROTEIN;
+                    aMessages.Add("At what time would you like to travel "  );
+                    this.nCur = State.TRAVEL_TIME;
                     break;
-                case State.PROTEIN:
+                
+                case State.TRAVEL_TIME:
+                    this.oOrder.TravelTime = sInMessage;
+                    this.oOrder.Save();
+                    aMessages.Add("What is the name of your destination "  );
+                    this.nCur = State.TRAVEL_PLACE;
+                    break;
+
+                case State.TRAVEL_PLACE:
+                    this.oOrder.TravelPlace = sInMessage;
+                    this.oOrder.Save();
+                    aMessages.Add("In which class would you like to travel (1.Business 2.Economy) " );
+                    this.nCur = State.TRAVEL_CLASS;
+                    break;
+                
+                case State.TRAVEL_CLASS:
                     string sProtein = sInMessage;
-                    aMessages.Add("What toppings would you like on this  " + this.oOrder.Size + " " + sProtein + " Shawarama?");
+                    aMessages.Add("Thankyou to booking your trip");
+                    this.nCur = State.WELCOMING;
                     break;
 
 
