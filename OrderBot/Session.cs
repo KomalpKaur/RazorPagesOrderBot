@@ -52,7 +52,9 @@ namespace OrderBot
                     break;
                 
                 case State.TRAVEL_CLASS:
-                    string sProtein = sInMessage;
+                    //string sProtein = sInMessage;
+                    this.oOrder.TravelClass = sInMessage;
+                    this.oOrder.Save();
                     aMessages.Add("Thankyou to booking your trip");
                     this.nCur = State.WELCOMING;
                     break;
